@@ -5,15 +5,25 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 
-class TheShot extends JFrame{
+/**
+ * klasa odpowiedzialna za główne okno gry
+ * @author Jakub Kwaśniewski
+ */
+public class TheShot extends JFrame{
     private Timer timer;
-    public Menu menu; //Deklaracja pierwszego menu
-    public int room = 0; // Zmienna definiująca które menu ma wyświetlić
-    public Rules rules ; // Deklaracja menu z zasadami
-    public CategorySelection categorySelection; // Deklaracja menu wyboru poziomu trudności
-    public TheShotAction theShotAction; // Deklaracja pozycji, w której dzieje się akcja gry
+    /** deklaracja pierwszego menu */
+    public Menu menu;
+    /** Zmienna definiująca które menu ma wyświetlić */
+    public int room = 0;
+    /** Deklaracja menu z zasadami */
+    public Rules rules ;
+    /** deklaracja wyboru kategorii */
+    public CategorySelection categorySelection;
+    /** deklaracja pozycji w której dzieje się akcja gry */
+    public TheShotAction theShotAction;
 
-    public class Loop extends TimerTask {
+    /** pętla rozgrywki */
+    class Loop extends TimerTask {
 
 
         public void run() {
@@ -25,6 +35,7 @@ class TheShot extends JFrame{
     }
 
 
+    /** Inicjalizacja gry */
     TheShot(){
 
         super("The Shot"); //Napis na okienku
@@ -39,8 +50,7 @@ class TheShot extends JFrame{
         this.theShotAction = new TheShotAction();
         timer = new Timer();
         timer.scheduleAtFixedRate(new Loop(),0,1000/60);
-        getContentPane().addMouseListener(new MouseE() //Obsługa kliknięć myszy
-        {
+        getContentPane().addMouseListener(new MouseE(){ //Obsługa kliknięć myszy
             public void mousePressed(MouseEvent e)
             {
                 //Odpowiednie pozycje (menu itp.) w zależności od zmiennej room
@@ -51,7 +61,7 @@ class TheShot extends JFrame{
                 else if(room == 1)
                 {
                     room = categorySelection.click(e.getX(), e.getY());
-                    if(room > 2)
+                    if(room >2)
                     {
                         theShotAction.level(room-3);
                     }
@@ -82,12 +92,13 @@ class TheShot extends JFrame{
     }
 
 
+    /** metoda uruchamiająca grę */
     public static void main(String[] args)
     {
         TheShot window = new TheShot();
         window.repaint();
     }
-
+    /** rysowanie okna w zależnści od wybranej pozycji */
     public void paint(Graphics g)
     {
 
